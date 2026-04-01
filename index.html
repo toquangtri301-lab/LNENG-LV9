@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luyện Phản Xạ Tiếng Anh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="top-banner">
+        <div class="title-wrap">
+          <h1>Luyện Phản Xạ Tiếng Anh</h1>
+          <p class="subtitle">Phiên bản CEFR A1 đến C2 • 3.300 mục từ • 4.700 câu giao tiếp • nền trắng • khung đen • nghe 2 lần</p>
+          <div class="level-strip" id="levelGrid" aria-label="Chọn cấp độ A1 đến C2"></div>
+        </div>
+      </header>
+
+      <main class="app-layout">
+        <section class="menu-card">
+          <div class="app-tabs" role="tablist" aria-label="Các tab chức năng">
+            <button class="app-tab-btn active" data-view="practice" role="tab" aria-selected="true">Luyện tập</button>
+            <button class="app-tab-btn" data-view="voice" role="tab" aria-selected="false">Thiết lập giọng đọc</button>
+          </div>
+
+          <div class="tab-panel active" id="practiceTabPanel">
+            <div class="mode-switch" role="tablist" aria-label="Chọn chế độ luyện tập">
+              <button class="mode-btn active" data-mode="vocabulary" role="tab" aria-selected="true">
+                <span class="mode-icon">📘</span>
+                <span>Phản xạ Từ vựng</span>
+              </button>
+              <button class="mode-btn" data-mode="communication" role="tab" aria-selected="false">
+                <span class="mode-icon">💬</span>
+                <span>Phản xạ Giao tiếp</span>
+              </button>
+            </div>
+            <div class="topic-toolbar">
+              <label class="topic-picker" for="topicSelect">
+                <span>Học theo chủ đề</span>
+                <select id="topicSelect" aria-label="Chọn chủ đề để học">
+                  <option value="all">Tất cả chủ đề</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="voiceTabPanel">
+            <div class="voice-card">
+              <div class="voice-card-head">
+                <h3>Thiết lập giọng đọc</h3>
+                <p>Lưu cài đặt giọng đọc riêng cho trình duyệt hoặc ElevenLabs qua proxy.</p>
+              </div>
+              <div class="voice-form-grid">
+                <label>
+                  Kiểu phát âm
+                  <select id="ttsProvider">
+                    <option value="browser">Trình duyệt</option>
+                    <option value="proxy">ElevenLabs qua proxy</option>
+                  </select>
+                </label>
+
+                <label>
+                  URL proxy
+                  <input id="proxyUrl" type="url" placeholder="https://ten-worker-cua-ban.workers.dev/api/tts" />
+                </label>
+
+                <label>
+                  Voice ID
+                  <input id="voiceId" type="text" placeholder="Voice ID của ElevenLabs" />
+                </label>
+
+                <label>
+                  Model ID
+                  <input id="modelId" type="text" placeholder="eleven_multilingual_v2" />
+                </label>
+              </div>
+              <div class="voice-note">Nếu chưa điền ElevenLabs, web sẽ tự dùng giọng đọc tiếng Anh của trình duyệt.</div>
+              <div class="voice-actions">
+                <button class="secondary-btn" id="saveVoiceSettings">Lưu thiết lập giọng đọc</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="stage-card">
+          <div class="stage-header">
+            <div class="badge-row">
+              <span class="badge" id="activeModeLabel">Phản xạ Từ vựng</span>
+              <span class="badge badge-secondary" id="activeLevelLabel">A1</span>
+              <span class="badge badge-secondary" id="activeTopicBadge">Tất cả chủ đề</span>
+            </div>
+            <div class="stage-actions">
+              <button class="ghost-btn active" id="autoAdvanceBtn">Tự động chuyển: Bật</button>
+              <button class="ghost-btn" id="shuffleBtn">Đổi ngẫu nhiên</button>
+              <button class="ghost-btn" id="repeatBtn">Nghe lại</button>
+            </div>
+          </div>
+
+          <div class="ratio-shell">
+            <div class="practice-stage" id="practiceStage">
+              <div class="stage-overlay"></div>
+              <div class="corner-decoration top-left"></div>
+              <div class="corner-decoration top-right"></div>
+              <div class="corner-decoration bottom-left"></div>
+              <div class="corner-decoration bottom-right"></div>
+
+              <div class="prompt-area">
+                <div class="meaning-panel" id="meaningPanel">
+                  <div class="meaning-label">Nghĩa tiếng Việt</div>
+                  <h2 class="meaning-text" id="meaningText">Bấm Bắt đầu để luyện phản xạ</h2>
+                </div>
+              </div>
+
+              <div class="countdown-wrap hidden" id="countdownWrap" aria-live="polite">
+                <div class="countdown-ring"><span id="countdownNumber">5</span></div>
+                <p class="countdown-text">Chuẩn bị phản xạ</p>
+              </div>
+
+              <div class="answer-area hidden" id="answerArea">
+                <p class="hanzi-text" id="hanziText">Hello</p>
+                <p class="ipa-text" id="ipaText">/həˈloʊ/</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="outside-info-row">
+            <div class="info-chip" id="progressText">Tiến độ: 0 / 0</div>
+            <div class="info-chip" id="totalText">Tổng số từ: 0</div>
+          </div>
+
+          <div class="status-outside" id="statusBar">Sẵn sàng luyện tập</div>
+
+          <div class="control-bar">
+            <button class="primary-btn" id="startBtn">Bắt đầu</button>
+            <button class="secondary-btn" id="nextBtn">Câu tiếp theo</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
